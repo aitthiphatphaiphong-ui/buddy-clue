@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Buddy Clue 🎄</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0b3d2e, #8b0000);
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    h1 {
+      color: #b30000;
+      margin-bottom: 5px;
+    }
+
+    .sub {
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #b30000;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #8b0000;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+
+    .clue {
+      background: #fff7d6;
+      border-left: 5px solid #d4a017;
+      padding: 15px;
+      margin-top: 12px;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .logout {
+      background: #555;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <div id="loginPage">
+
+    <h1>🎄 Buddy Clue 🎁</h1>
+
+    <div class="sub">
+      เข้าสู่ระบบเพื่อดูคำใบ้ของคุณ
+    </div>
+
+    <input
+      type="text"
+      id="username"
+      placeholder="ชื่อผู้ใช้"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="รหัสผ่าน"
+    >
+
+    <button onclick="login()">
+      🔐 เข้าสู่ระบบ
+    </button>
+
+    <p id="error" style="color:red;"></p>
+
+  </div>
+
+
+  <div id="buddyPage" class="hidden">
+
+    <h1>🎁 คำใบ้ของคุณ</h1>
+
+    <p id="welcome"></p>
+
+    <div id="result"></div>
+
+    <button class="logout" onclick="logout()">
+      ออกจากระบบ
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const users = {
+  "buddy01": {
+    password: "1234",
+    name: "โบนัส",
+    clues: [
+      "คนนี้ชอบสีฟ้า 💙",
+      "คนนี้ชอบกินพิซซ่า 🍕",
+      "คนนี้มักมาโรงเรียนเช้า"
+    ]
+  },
+
+  "buddy02": {
+    password: "5678",
+    name: "นัท",
+    clues: [
+      "คนนี้ชอบฟังเพลง 🎵",
+      "คนนี้ชอบกินของหวาน 🍰"
+    ]
+  }
+};
+
+
+function login() {
+
+  const username =
+    document.getElementById("username").value;
+
+  const password =
+    document.getElementById("password").value;
+
+  const user = users[username];
+
+  if (user && user.password === password) {
+
+    document.getElementById("loginPage")
+      .classList.add("hidden");
+
+    document.getElementById("buddyPage")
+      .classList.remove("hidden");
+
+    document.getElementById("welcome").innerHTML =
+      "สวัสดี " + user.name + " 👋";
+
+    let html = "";
+
+    user.clues.forEach(function(clue, index) {
+
+      html += `
+        <div class="clue">
+          <b>💌 คำใบ้ที่ ${index + 1}</b>
+          <br><br>
+          ${clue}
+        </div>
+      `;
+
+    });
+
+    document.getElementById("result")
+      .innerHTML = html;
+
+  } else {
+
+    document.getElementById("error").innerText =
+      "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+
+  }
+}
+
+
+function logout() {
+
+  document.getElementById("buddyPage")
+    .classList.add("hidden");
+
+  document.getElementById("loginPage")
+    .classList.remove("hidden");
+
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("error").innerText = "";
+
+}
+
+</script>
+
+</body>
+</html>
+สร้างหน้า Buddy Clue
